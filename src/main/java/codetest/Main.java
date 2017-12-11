@@ -28,8 +28,9 @@ public class Main {
         while (lineIn.hasNext()) {
 
             String line = lineIn.nextLine();
-            if (line.trim().length() == 0)
+            if (line.trim().length() == 0) {
                 continue;
+            }
 
             if (line.trim().equalsIgnoreCase("exit"))
                 break;
@@ -43,17 +44,24 @@ public class Main {
             int distance = 0;  // Zero distance = entire grid
             if (line.contains("~")) {
                 int pos = line.indexOf("~");
-                distance = Integer.parseInt(line.substring(pos + 1).trim());
-                line = line.substring(0, pos).trim(); // trim off distance from line
+                try {
+                    distance = Integer.parseInt(line.substring(pos + 1).trim());
+                    line = line.substring(0, pos).trim(); // trim off distance from line
+                }catch (Exception ex) {
+                    System.err.printf("Failed to parse distance '%s'. %s, %s\n", line, ex.getClass().getSimpleName(), ex.getMessage());
+                    continue;
+                }
             }
-
             Location userLocation;
             try {
                 userLocation = Location.parseLocation(line);
             } catch (Exception ex) {
-                System.err.printf("Failed to parse location %s. %s, %s\n", line, ex.getClass().getSimpleName(), ex.getMessage());
+                System.err.printf("Failed to parse location '%s'. %s, %s\n", line, ex.getClass().getSimpleName(), ex.getMessage());
                 continue;
             }
+
+            System.out.printf("Searching location X:%d , Y:%d over distance of: %s blocks\n", userLocation.getX(), userLocation.getY(),
+                    distance > 0 ? Integer.toString(distance) : "limitless");
 
             // Get an ordered list of events, ordered by distance from user location
             List<Event> events = eventListings.findEvents(userLocation, distance);
@@ -66,8 +74,10 @@ public class Main {
                     if (!event.getTickets().isEmpty()) {
                         int eventDistance = userLocation.getDistance(event.getLocation());
                         System.out.printf("Event %d - $%.2f, Distance %d\n", event.getID(), event.getCheapestTicket().getPrice(), eventDistance);
+
                         count--;
-                        if (count <= 0) { // Limit to five outputs.
+
+                        if (distance == 0 && count <= 0) { // Limit to five outputs when no distance given.
                             break;
                         }
                     }

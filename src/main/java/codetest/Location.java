@@ -91,8 +91,8 @@ public class Location {
         String[] s = location.split(",");
         if (s.length != 2)
                 throw new IllegalArgumentException("Failed to parse '" + location + "' into a Location");
-        int x = Integer.parseInt(s[0]);
-        int y = Integer.parseInt(s[1]);
+        int x = Integer.parseInt(s[0].trim());
+        int y = Integer.parseInt(s[1].trim());
 
         return new Location(x, y);
 
