@@ -37,7 +37,7 @@ public class Main {
                 break;
 
             // look for maximum distance marker '~'
-            int distance = Location.MAX_LOCATION_SIZE;
+            int distance = Location.MAX_LOCATION_SIZE * 2;
             if (line.contains("~")) {
                 int pos = line.indexOf("~");
                 distance = Integer.parseInt(line.substring(pos + 1));
@@ -57,7 +57,7 @@ public class Main {
             if (!events.isEmpty()) {
                 int count = MAX_OUTPUT_COUNT;
                 for (Event event : events) {
-                    System.out.println(event.toString());
+                    //System.out.println(event.toString());
 
                     if (!event.getTickets().isEmpty()) {
                         int eventDistance = userLocation.getDistance(event.getLocation());
