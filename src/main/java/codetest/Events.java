@@ -63,15 +63,17 @@ public class Events {
             }
         }
 
+        // Sort found items by distance
         Collections.sort(foundItems, new Comparator<FoundItem>() {
             public int compare(FoundItem o1, FoundItem o2) {
                 return o1.getDistance() < o2.getDistance() ? -1 : o1.getDistance() == o2.getDistance() ? 0 : 1;
             }
         });
 
+        // Transfer found items to simple, ordered event list
         List<Event> orderedEvents = new LinkedList<Event>();
         for (FoundItem item : foundItems) {
-            orderedEvents.add(item.event);
+            orderedEvents.add(item.getEvent());
         }
         return orderedEvents;
     }
@@ -100,6 +102,7 @@ public class Events {
     public void removeEvent(int id) {
         Event event = getEvent(id);
         if (null != event) {
+            eventMap.remove(event.getID());
             clearLocation(event.getLocation());
         }
     }
@@ -124,7 +127,10 @@ public class Events {
         return id > 0 ? getEvent(id) : null;
     }
 
-
+    /**
+     * Gets all of the events, in no specfic order
+     * @return
+     */
     public Collection<Event> getAllEvents() {
         return this.eventMap.values();
     }
@@ -146,6 +152,7 @@ public class Events {
      * @param location
      */
     private void clearLocation(Location location) {
+        // set location to zero = empty event
         addEventID(0, location);
     }
 
