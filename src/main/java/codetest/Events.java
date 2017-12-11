@@ -10,9 +10,9 @@ import java.util.*;
  */
 public class Events {
 
-    private Map<Integer, Event> eventMap = new HashMap<Integer, Event>();
     private static final int MAX_GRID_SIZE = (Location.MAX_LOCATION_SIZE * 2) + 1;
 
+    private final Map<Integer, Event> eventMap = new HashMap<Integer, Event>();
     private final int[][] index = new int[MAX_GRID_SIZE][MAX_GRID_SIZE];
 
 
