@@ -125,6 +125,10 @@ public class Events {
     }
 
 
+    public Collection<Event> getAllEvents() {
+        return this.eventMap.values();
+    }
+
     /**
      * Adds the given event ID to the grid index, at the location index.
      * @param id the id of the event

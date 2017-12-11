@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-    private static final int TEST_EVENT_COUNT = 50; // Number of test events to use
+    private static final int TEST_EVENT_COUNT = 30; // Number of test events to use
     private static final int MAX_OUTPUT_COUNT = 5; // Maximum output of events. (Ignoring events with no tickets)
 
 
@@ -21,8 +21,6 @@ public class Main {
         DataGenerator.makeEvents(TEST_EVENT_COUNT, eventListings);
 
         Scanner lineIn = new Scanner(System.in);
-
-        Writer out = new OutputStreamWriter(System.out);
 
         System.out.println("Please Enter your location, x,y where x and y are in the range of -10 to 10");
         System.out.println("Enter 'exit' to end");
@@ -35,6 +33,11 @@ public class Main {
 
             if (line.trim().equalsIgnoreCase("exit"))
                 break;
+
+            if (line.trim().equalsIgnoreCase("list")) {
+                dumpEvents(eventListings);
+                continue;
+            }
 
             // look for maximum distance marker '~'
             int distance = 0;  // Zero distance = entire grid
@@ -77,5 +80,15 @@ public class Main {
 
     }
 
+    private static void dumpEvents(Events eventListings) {
+        for (Event event : eventListings.getAllEvents()) {
+            System.out.printf("Event %d, Location: %d,%d\t", event.getID(), event.getLocation().getX(), event.getLocation().getY());
+            if (!event.getTickets().isEmpty())
+                System.out.printf("\tTicket count: %d.  Cheapest: %.2f\n", event.getTickets().size(), event.getCheapestTicket().getPrice());
+            else
+                System.out.println("No tickets!");
+            System.out.println();
+        }
+    }
 
 }
