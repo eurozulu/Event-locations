@@ -40,15 +40,15 @@ public class Main {
             int distance = 0;  // Zero distance = entire grid
             if (line.contains("~")) {
                 int pos = line.indexOf("~");
-                distance = Integer.parseInt(line.substring(pos + 1));
-                line = line.substring(0, pos); // trim off distance from line
+                distance = Integer.parseInt(line.substring(pos + 1).trim());
+                line = line.substring(0, pos).trim(); // trim off distance from line
             }
 
             Location userLocation;
             try {
                 userLocation = Location.parseLocation(line);
             } catch (Exception ex) {
-                System.err.println(ex.getMessage());
+                System.err.printf("Failed to parse location %s. %s, %s\n", line, ex.getClass().getSimpleName(), ex.getMessage());
                 continue;
             }
 

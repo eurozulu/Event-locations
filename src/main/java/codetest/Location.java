@@ -75,7 +75,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return super.toString() + String.format("{X=%d, Y=%d", this.getX(), this.getY());
+        return String.format("%s-{X=%d,Y=%d}", super.toString(), this.getX(), this.getY());
     }
 
     /**

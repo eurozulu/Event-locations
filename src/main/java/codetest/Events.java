@@ -51,10 +51,12 @@ public class Events {
         // Collect all items in range of the offset location
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
-
-                Event event = getEventAtLocation(new Location(x, y));
-                if (null != event) {
-                    foundItems.add(new FoundItem(event, location.getDistance(event.getLocation())));
+                Location l = new Location(x, y);
+                if (location.getDistance(l) <= dist) { // check event is inside distance range. (exteams of iterations may not be)
+                    Event event = getEventAtLocation(l);
+                    if (null != event) {
+                        foundItems.add(new FoundItem(event, location.getDistance(event.getLocation())));
+                    }
                 }
             }
         }
