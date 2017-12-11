@@ -3,6 +3,9 @@ package codetest;
 import java.util.*;
 
 /**
+ * Events is the Event Index maintaining the Events available indexed by their location.
+ *
+ * Events have their id indexed in a two dimentionsal index.
  * Created by rgilham on 11/12/2017.
  */
 public class Events {
@@ -16,7 +19,7 @@ public class Events {
     /**
      * Gets an ordered list of Events found at the location and within the given distance of the location, ordered by the distance from the given location.
      * @param location the location to search from
-     * @param distance the ditance from the location to search from, zero = limitless distance.
+     * @param distance the distance from the location to search from, zero = limitless distance.
      * @return an ordered list of Events, ordered by the distance from the location, the nearest event being the first in the list.
      */
     public List<Event> findEvents(Location location, int distance) {
@@ -150,6 +153,10 @@ public class Events {
     }
 
 
+    /**
+     * Internal indexing class used to order Events by distance.
+     * Not exposed outside of the index.
+     */
     private class FoundItem {
 
         private Event event;

@@ -3,6 +3,8 @@ package codetest;
 import java.util.List;
 
 /**
+ * An Event class contains the data relating to a single event.Each event has a unique (integer) ID,
+ * A Location of where it is and a list of zero or more tickets at random prices.
  * Created by rgilham on 11/12/2017.
  */
 public class Event {
@@ -17,18 +19,34 @@ public class Event {
         this.tickets = tickets;
     }
 
+    /**
+     * Get the Events unique ID
+     * @return the event ID
+     */
     public int getID() {
         return this.id;
     }
 
+    /**
+     * Gets the Events Location
+     * @return the event location
+     */
     public Location getLocation() {
         return this.location;
     }
 
+    /**
+     * Gets the events Ticket list.
+     * @return the tickets available for the event
+     */
     public List<Ticket> getTickets() {
         return tickets;
     }
 
+    /**
+     * Gets the cheapest ticket available for the event.
+     * @return the cheapest ticket or null if no tickets are available.
+     */
     public Ticket getCheapestTicket() {
         Ticket ticket = null;
         for (Ticket t : getTickets()) {

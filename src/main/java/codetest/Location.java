@@ -1,6 +1,9 @@
 package codetest;
 
 /**
+ * Location class holds the coordinates of a single location.
+ * Each location is referenced by its grid reference, X and Y.
+ *
  * Created by rgilham on 11/12/2017.
  */
 public class Location {
@@ -25,18 +28,26 @@ public class Location {
         Y = y;
     }
 
+    /**
+     * Gets the 'X' coordinate for the Location
+     * @return the X grid reference
+     */
     public int getX() {
         return X;
     }
 
+    /**
+     * Gets the 'Y' coordinate for the Location
+     * @return the Y grid reference
+     */
     public int getY() {
         return Y;
     }
 
     /**
      * Gets the distance in blocks, of the given location, relative to this location.
-     * @param l
-     * @return
+     * @param l the location to measure from
+     * @return the distance, in blocks, from this location to the given location.
      */
     public int getDistance(Location l) {
         int xd = Math.abs((l.X + 10) - (this.X + 10));

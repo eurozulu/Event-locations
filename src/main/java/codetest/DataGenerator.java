@@ -11,6 +11,11 @@ public class DataGenerator {
 
     private static final float MAX_TICKET_PRICE = 100.0f;
 
+    /**
+     * Makes the given number of events from random data and insert into the given index
+     * @param count the number of events to create
+     * @param eventIndex the index to insert them
+     */
     public static void makeEvents(int count, Events eventIndex) {
         for (int i = 0; i < count; i++) {
             Random r = new Random(System.currentTimeMillis());

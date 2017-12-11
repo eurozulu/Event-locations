@@ -10,8 +10,8 @@ import java.util.Scanner;
  */
 public class Main {
 
-    private static final int TEST_EVENT_COUNT = 50;
-    private static final int MAX_OUTPUT_COUNT = 5;
+    private static final int TEST_EVENT_COUNT = 50; // Number of test events to use
+    private static final int MAX_OUTPUT_COUNT = 5; // Maximum output of events. (Ignoring events with no tickets)
 
 
     public static void main(String[] args) {
@@ -37,11 +37,11 @@ public class Main {
                 break;
 
             // look for maximum distance marker '~'
-            int distance = Location.MAX_LOCATION_SIZE * 2;
+            int distance = 0;  // Zero distance = entire grid
             if (line.contains("~")) {
                 int pos = line.indexOf("~");
                 distance = Integer.parseInt(line.substring(pos + 1));
-                line = line.substring(0, pos);
+                line = line.substring(0, pos); // trim off distance from line
             }
 
             Location userLocation;
@@ -52,6 +52,7 @@ public class Main {
                 continue;
             }
 
+            // Get an ordered list of events, ordered by distance from user location
             List<Event> events = eventListings.findEvents(userLocation, distance);
 
             if (!events.isEmpty()) {
