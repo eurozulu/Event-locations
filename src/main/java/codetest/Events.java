@@ -45,17 +45,19 @@ public class Events {
             endY = Location.MAX_LOCATION_SIZE;
         }
 
-        // Use found items to claculate the order by distance,
+        // Use found items to calculate the order by distance,
         List<FoundItem> foundItems = new ArrayList<FoundItem>();
 
         // Collect all items in range of the offset location
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
                 Location l = new Location(x, y);
-                if (location.getDistance(l) <= dist) { // check event is inside distance range. (exteams of iterations may not be)
+                int d = location.getDistance(l);
+
+                if (d <= dist) { // check location is inside distance range. (exteams of iterations may not be)
                     Event event = getEventAtLocation(l);
                     if (null != event) {
-                        foundItems.add(new FoundItem(event, location.getDistance(event.getLocation())));
+                        foundItems.add(new FoundItem(event, d));
                     }
                 }
             }
