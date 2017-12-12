@@ -50,8 +50,8 @@ public class Location {
      * @return the distance, in blocks, from this location to the given location.
      */
     public int getDistance(Location l) {
-        int xd = Math.abs((l.X + 10) - (this.X + 10));
-        int yd = Math.abs((l.Y + 10) - (this.Y + 10));
+        int xd = Math.abs((l.X + MAX_LOCATION_SIZE) - (this.X + MAX_LOCATION_SIZE));
+        int yd = Math.abs((l.Y + MAX_LOCATION_SIZE) - (this.Y + MAX_LOCATION_SIZE));
         return xd + yd;
     }
 
