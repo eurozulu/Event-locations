@@ -17,7 +17,7 @@ To execute:
 
 Usage:
 
-enter the user location at x,y where x and y are integers between -10 ang +10.
+enter the user location as x,y where x and y are integers between -10 and +10.
 A list of upto five events will be shown in order of distance from that location,
 with the nearest event being first.
 e.g 
