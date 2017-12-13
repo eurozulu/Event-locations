@@ -45,7 +45,7 @@ public class Location {
     }
 
     /**
-     * Gets the distance in blocks, of the given location, relative to this location.
+     * Gets the distance in blocks, of the given locatioxn, relative to this location.
      * @param l the location to measure from
      * @return the distance, in blocks, from this location to the given location.
      */

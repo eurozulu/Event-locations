@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * Main, entry class.
+ * 
  * Created by rgilham on 11/12/2017.
  */
 public class Main {
