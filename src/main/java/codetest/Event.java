@@ -10,8 +10,8 @@ import java.util.List;
 public class Event {
 
     private final int id;
-    private Location location;
-    private List<Ticket> tickets;
+    private final Location location;
+    private final List<Ticket> tickets;
 
     public Event(int id, Location location, List<Ticket> tickets) {
         this.id = id;
@@ -20,7 +20,7 @@ public class Event {
     }
 
     /**
-     * Get the Events unique ID
+     * Get the EventIndex unique ID
      * @return the event ID
      */
     public int getID() {
@@ -28,7 +28,7 @@ public class Event {
     }
 
     /**
-     * Gets the Events Location
+     * Gets the EventIndex Location
      * @return the event location
      */
     public Location getLocation() {

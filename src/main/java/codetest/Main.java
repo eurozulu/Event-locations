@@ -1,13 +1,11 @@
 package codetest;
 
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.List;
 import java.util.Scanner;
 
 /**
  * Main, entry class.
- * 
+ *
  * Created by rgilham on 11/12/2017.
  */
 public class Main {
@@ -16,8 +14,22 @@ public class Main {
     private static final int MAX_OUTPUT_COUNT = 5; // Maximum output of events. (Ignoring events with no tickets)
 
 
+    /**
+     * Main entry point.
+     * No command line arguments are used.
+     *
+     * Once started commands are:
+     * x,y  a location to find the nearest events.
+     *      Both x and y must be within the range of #Location.MAX_LOCATION_SIZE, positive or negative.
+     *
+     * exit Will end the program
+     *
+     * list will dump all the current events in the index, to the output.
+     *
+     * @param args command line arguments (Not used)
+     */
     public static void main(String[] args) {
-        Events eventListings = new Events();
+        EventIndex eventListings = new EventIndex();
 
         System.out.printf("Generating %d events of test data...", TEST_EVENT_COUNT);
         DataGenerator.makeEvents(TEST_EVENT_COUNT, eventListings);
@@ -92,7 +104,7 @@ public class Main {
 
     }
 
-    private static void dumpEvents(Events eventListings) {
+    private static void dumpEvents(EventIndex eventListings) {
         for (Event event : eventListings.getAllEvents()) {
             System.out.printf("Event %d, Location: %d,%d\t", event.getID(), event.getLocation().getX(), event.getLocation().getY());
             if (!event.getTickets().isEmpty())

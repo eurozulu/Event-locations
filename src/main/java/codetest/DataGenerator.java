@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  * DataGenerator generates test data.
- * It has a single, static method, {@link #makeEvents(int, Events)}, which will add the given number of new
+ * It has a single, static method, {@link #makeEvents(int, EventIndex)}, which will add the given number of new
  * events, into the given eventIndex.
  *
  * Created by rgilham on 11/12/2017.
@@ -21,7 +21,7 @@ public class DataGenerator {
      * @param count the number of events to create
      * @param eventIndex the index to insert them
      */
-    public static void makeEvents(int count, Events eventIndex) {
+    public static void makeEvents(int count, EventIndex eventIndex) {
 
         Random rnd = new Random(System.currentTimeMillis());
 

@@ -3,12 +3,13 @@ package codetest;
 import java.util.*;
 
 /**
- * Events is the Event Index maintaining the Events available indexed by their location.
+ * The Event Index maintaining all the Events available, indexed by their location.
  *
- * Events have their id indexed in a two dimentionsal index.
+ * EventIndex have their id indexed in a two dimensional index.
+ *
  * Created by rgilham on 11/12/2017.
  */
-public class Events {
+public class EventIndex {
 
     private static final int MAX_GRID_SIZE = (Location.MAX_LOCATION_SIZE * 2) + 1;
 
@@ -17,10 +18,10 @@ public class Events {
 
 
     /**
-     * Gets an ordered list of Events found at the location and within the given distance of the location, ordered by the distance from the given location.
+     * Gets an ordered list of EventIndex found at the location and within the given distance of the location, ordered by the distance from the given location.
      * @param location the location to search from
      * @param distance the distance from the location to search from, zero = limitless distance.
-     * @return an ordered list of Events, ordered by the distance from the location, the nearest event being the first in the list.
+     * @return an ordered list of EventIndex, ordered by the distance from the location, the nearest event being the first in the list.
      */
     public List<Event> findEvents(Location location, int distance) {
 
@@ -54,7 +55,7 @@ public class Events {
                 Location l = new Location(x, y);
                 int d = location.getDistance(l);
 
-                if (d <= dist) { // check location is inside distance range. (exteams of iterations may not be)
+                if (d <= dist) { // check location is inside distance range. (extreme of iterations may not be)
                     Event event = getEventAtLocation(l);
                     if (null != event) {
                         foundItems.add(new FoundItem(event, d));
@@ -97,7 +98,7 @@ public class Events {
 
     /**
      * Remove the event with the given ID from the index
-     * @param id
+     * @param id the event id to remove
      */
     public void removeEvent(int id) {
         Event event = getEvent(id);
@@ -128,8 +129,8 @@ public class Events {
     }
 
     /**
-     * Gets all of the events, in no specfic order
-     * @return
+     * Gets all of the events, in no specific order
+     * @return A Collection of all the Events.
      */
     public Collection<Event> getAllEvents() {
         return this.eventMap.values();
@@ -149,7 +150,7 @@ public class Events {
 
     /**
      * Clears the grid index of any event at the given location
-     * @param location
+     * @param location the location to clear of any event.
      */
     private void clearLocation(Location location) {
         // set location to zero = empty event
@@ -159,7 +160,7 @@ public class Events {
     /**
      * Gets the event id at the given location
      * @param location the location to get the id
-     * @return the event id at theat location or zero of no event exists at the location
+     * @return the event id at the given location or zero if no event exists at that location
      */
     private int getEventID(Location location) {
         int offsetX = location.getX() + Location.MAX_LOCATION_SIZE;
@@ -169,13 +170,13 @@ public class Events {
 
 
     /**
-     * Internal indexing class used to order Events by distance.
+     * Internal indexing class used to order EventIndex by distance.
      * Not exposed outside of the index.
      */
     private class FoundItem {
 
-        private Event event;
-        private int distance;
+        private final Event event;
+        private final int distance;
 
 
         public FoundItem(Event event, int distance) {
