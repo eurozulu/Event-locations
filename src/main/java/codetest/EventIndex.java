@@ -98,7 +98,7 @@ public class EventIndex {
 
     /**
      * Remove the event with the given ID from the index
-     * @param id the event id to remove
+     * @param id
      */
     public void removeEvent(int id) {
         Event event = getEvent(id);
@@ -129,8 +129,8 @@ public class EventIndex {
     }
 
     /**
-     * Gets all of the events, in no specific order
-     * @return A Collection of all the Events.
+     * Gets all of the events, in no specfic order
+     * @return
      */
     public Collection<Event> getAllEvents() {
         return this.eventMap.values();
@@ -150,7 +150,7 @@ public class EventIndex {
 
     /**
      * Clears the grid index of any event at the given location
-     * @param location the location to clear of any event.
+     * @param location
      */
     private void clearLocation(Location location) {
         // set location to zero = empty event
@@ -160,7 +160,7 @@ public class EventIndex {
     /**
      * Gets the event id at the given location
      * @param location the location to get the id
-     * @return the event id at the given location or zero if no event exists at that location
+     * @return the event id at theat location or zero of no event exists at the location
      */
     private int getEventID(Location location) {
         int offsetX = location.getX() + Location.MAX_LOCATION_SIZE;
@@ -175,8 +175,8 @@ public class EventIndex {
      */
     private class FoundItem {
 
-        private final Event event;
-        private final int distance;
+        private Event event;
+        private int distance;
 
 
         public FoundItem(Event event, int distance) {

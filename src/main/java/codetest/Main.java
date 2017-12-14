@@ -1,5 +1,6 @@
 package codetest;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ import java.util.Scanner;
 public class Main {
 
     private static final int TEST_EVENT_COUNT = 30; // Number of test events to use
-    private static final int MAX_OUTPUT_COUNT = 5; // Maximum output of events. (Ignoring events with no tickets)
+    private static final int MAX_OUTPUT_COUNT = 5; // Maximum output of events.
 
 
     /**
@@ -50,7 +51,7 @@ public class Main {
                 break;
 
             if (line.trim().equalsIgnoreCase("list")) {
-                dumpEvents(eventListings);
+                dumpEvents(eventListings.getAllEvents());
                 continue;
             }
 
@@ -74,27 +75,31 @@ public class Main {
                 continue;
             }
 
-            System.out.printf("Searching location X:%d , Y:%d over distance of: %s blocks\n", userLocation.getX(), userLocation.getY(),
-                    distance > 0 ? Integer.toString(distance) : "limitless");
+            System.out.printf("Searching location X:%d , Y:%d", userLocation.getX(), userLocation.getY());
+            if (distance > 0)
+                System.out.printf(" over distance of: %d blocks", distance);
+            System.out.println();
 
             // Get an ordered list of events, ordered by distance from user location
             List<Event> events = eventListings.findEvents(userLocation, distance);
 
             if (!events.isEmpty()) {
-                int count = MAX_OUTPUT_COUNT;
+                int index = 0;
                 for (Event event : events) {
                     //System.out.println(event.toString());
 
-                    if (!event.getTickets().isEmpty()) {
-                        int eventDistance = userLocation.getDistance(event.getLocation());
-                        System.out.printf("Event %d - $%.2f, Distance %d\n", event.getID(), event.getCheapestTicket().getPrice(), eventDistance);
+                    int eventDistance = userLocation.getDistance(event.getLocation());
+                    String price = !event.getTickets().isEmpty() ?
+                            String.format("$%.2f", event.getCheapestTicket().getPrice()) : "Sold out";
 
-                        count--;
+                    System.out.printf("Event %d - %s, Distance %d\n",
+                            event.getID(), price, eventDistance);
 
-                        if (distance == 0 && count <= 0) { // Limit to five outputs when no distance given.
-                            break;
-                        }
+                    index++;
+                    if (distance == 0 && index >= MAX_OUTPUT_COUNT) { // Limit to five outputs when no distance given.
+                        // check fo
                     }
+
                 }
 
             } else {
@@ -104,9 +109,11 @@ public class Main {
 
     }
 
-    private static void dumpEvents(EventIndex eventListings) {
-        for (Event event : eventListings.getAllEvents()) {
+    private static void dumpEvents(Collection<Event> events) {
+        for (Event event : events) {
+
             System.out.printf("Event %d, Location: %d,%d\t", event.getID(), event.getLocation().getX(), event.getLocation().getY());
+
             if (!event.getTickets().isEmpty())
                 System.out.printf("\tTicket count: %d.  Cheapest: %.2f\n", event.getTickets().size(), event.getCheapestTicket().getPrice());
             else
