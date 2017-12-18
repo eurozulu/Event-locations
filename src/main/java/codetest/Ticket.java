@@ -3,7 +3,7 @@ package codetest;
 /**
  * A Ticket is a class containing a price for a single ticket.
  * It is Immutable.
- *
+ * <p>
  * Created by rgilham on 11/12/2017.
  */
 public class Ticket {
@@ -21,6 +21,7 @@ public class Ticket {
 
     /**
      * The price of the ticket.
+     *
      * @return the ticket price
      */
     public float getPrice() {

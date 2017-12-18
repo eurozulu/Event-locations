@@ -15,7 +15,7 @@ Default locale: en_US, platform encoding: UTF-8
 <br /><br />
 
 **Repository**<br />
-git clone https://github.com/eurozulu/Event-locations.git
+    git clone https://github.com/eurozulu/Event-locations.git
 
 **Build Instructions**<br />
 To build, from within the project directory:

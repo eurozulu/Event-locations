@@ -3,7 +3,7 @@ package codetest;
 /**
  * Location class holds the coordinates of a single location.
  * Each location is referenced by its grid reference, X and Y.
- *
+ * <p>
  * Created by rgilham on 11/12/2017.
  */
 public class Location {
@@ -22,11 +22,12 @@ public class Location {
      * Create a new Location with the given coordinates.
      */
     public Location() {
-        this(0,0);
+        this(0, 0);
     }
 
     /**
      * Create a new Location with the given coordinates.
+     *
      * @param x the 'X' grid reference
      * @param y the 'Y' grid reference
      */
@@ -43,6 +44,7 @@ public class Location {
 
     /**
      * Gets the 'X' coordinate for the Location
+     *
      * @return the X grid reference
      */
     public int getX() {
@@ -51,6 +53,7 @@ public class Location {
 
     /**
      * Gets the 'Y' coordinate for the Location
+     *
      * @return the Y grid reference
      */
     public int getY() {
@@ -59,6 +62,7 @@ public class Location {
 
     /**
      * Gets the distance in blocks, of the given location, relative to this location.
+     *
      * @param l the location to measure from
      * @return the distance, in blocks, from this location to the given location.
      */
@@ -93,8 +97,8 @@ public class Location {
     /**
      * Parse a string in the format of x,y into a location object.
      * Will strip whitespace/
-     * @param location a string of a location in the form of "x,y" (without quotes). (Whitespace is ignored)
      *
+     * @param location a string of a location in the form of "x,y" (without quotes). (Whitespace is ignored)
      * @return a New Location with the parsed coordinates
      */
     public static Location parseLocation(String location) {
@@ -103,7 +107,7 @@ public class Location {
 
         String[] s = location.split(",");
         if (s.length != 2)
-                throw new IllegalArgumentException("Failed to parse '" + location + "' into a Location");
+            throw new IllegalArgumentException("Failed to parse '" + location + "' into a Location");
         int x = Integer.parseInt(s[0].trim());
         int y = Integer.parseInt(s[1].trim());
 

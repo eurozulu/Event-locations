@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 /**
  * Main, entry class.
- *
+ * <p>
  * Created by rgilham on 11/12/2017.
  */
 public class Main {
@@ -18,13 +18,13 @@ public class Main {
     /**
      * Main entry point.
      * No command line arguments are used.
-     *
+     * <p>
      * Once started commands are:
      * x,y  a location to find the nearest events.
-     *      Both x and y must be within the range of #Location.MAX_LOCATION_SIZE, positive or negative.
-     *
+     * Both x and y must be within the range of #Location.MAX_LOCATION_SIZE, positive or negative.
+     * <p>
      * exit Will end the program
-     *
+     * <p>
      * list will dump all the current events in the index, to the output.
      *
      * @param args command line arguments (Not used)
@@ -62,7 +62,7 @@ public class Main {
                 try {
                     distance = Integer.parseInt(line.substring(pos + 1).trim());
                     line = line.substring(0, pos).trim(); // trim off distance from line
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                     System.err.printf("Failed to parse distance '%s'. %s, %s\n", line, ex.getClass().getSimpleName(), ex.getMessage());
                     continue;
                 }

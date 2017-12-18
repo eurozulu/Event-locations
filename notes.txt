@@ -1,0 +1,53 @@
+Project files.
+
+Project uses Maven to manage its build.  Maven uses the 'pom.xml' file to define the layout of the project.
+
+POM.xml
+Main project properties, Group, Artifact IDs and Version define the name of the project.
+
+These are the basic tags needed in a POM.
+The properties tag, containing the UTF-8 def simply defines the source code as being UTF-8 encoded files,
+which all Java source files usually are.  Only there to prevent a build 'warning'!
+
+The most important tag is normally the 'dependencies' tag, containing any libraries the project uses.
+These also state the Group/Artifact/Varsion of those libraries, so they can be downloaded from repositories,
+when building.  (As your IDE most likely does behind the scenes :-) )
+This project is simple and has no dependencies, so there is no tag.  But that shit isn't real. ;-)
+
+The build tag defines the behaviour of how maven builds and packages your project.
+By default (with no build tag) it'll compile and build a simple jar file.
+The two build plugins used here are to:
+- Customise the JAR build to it points to the main class, making it an 'executable jar'
+- Define the javadocs build properties so the project can generate its javadocs.
+  (Execute mvn javdoc:javadoc to build docs)
+
+README.MD
+The readme file is a standard file included in most projects.  Its for notes, and advice
+on how to build/install and use the application.
+the 'md' extension is for 'mark-up', a simple markup language for defining how to display the read me.
+You can see how it is displayed either in your IDE or on github, which automatically picks up readme.MD files
+and displays them as the project home page.
+Notice the weird **, <br /> and > signs, all define mark up.
+
+Directory structure
+The somewhat drawn out directory structure is a standardisd layout for maven projects.
+For a simple project it appears convoluted but for larger projects it makes more sense.
+Your general project files are kept in the 'root' of the project folder.  This also has a 'src'
+folder, which is then split into 'main'/'test'.  The main side contains the project source files
+and the, the unit test code and resources.
+Both sides split evenly, into 'java' and resources.  Place .java files in the java folder
+and static resources (images, xml/json/text files etc) in the resources.
+Using an IDE, it generates all this shit for you, choose to make a Maven project and it'll make this and the pom file for you.
+But good to know what its all for :-)
+
+
+Code notes.
+Design may be imporved using interfaces and implementation of each of the main classes,
+Event, EventIndex, Location and Ticket, with implementations of those interfaces, however,
+for clarity it was choosen to implment classes directly.
+
+
+
+
+
+

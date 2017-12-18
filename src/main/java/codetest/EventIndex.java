@@ -4,9 +4,9 @@ import java.util.*;
 
 /**
  * The Event Index maintaining all the Events available, indexed by their location.
- *
+ * <p>
  * EventIndex have their id indexed in a two dimensional index.
- *
+ * <p>
  * Created by rgilham on 11/12/2017.
  */
 public class EventIndex {
@@ -19,6 +19,7 @@ public class EventIndex {
 
     /**
      * Gets an ordered list of EventIndex found at the location and within the given distance of the location, ordered by the distance from the given location.
+     *
      * @param location the location to search from
      * @param distance the distance from the location to search from, zero = limitless distance.
      * @return an ordered list of EventIndex, ordered by the distance from the location, the nearest event being the first in the list.
@@ -82,6 +83,7 @@ public class EventIndex {
 
     /**
      * Add a new Event to the index
+     *
      * @param event the Event to Add
      */
     public void addEvent(Event event) {
@@ -98,6 +100,7 @@ public class EventIndex {
 
     /**
      * Remove the event with the given ID from the index
+     *
      * @param id
      */
     public void removeEvent(int id) {
@@ -110,6 +113,7 @@ public class EventIndex {
 
     /**
      * Gets the Event by the event ID
+     *
      * @param id the ID of the event
      * @return the Event with that id or null if no event with that id exists.
      */
@@ -120,6 +124,7 @@ public class EventIndex {
     /**
      * Gets the event at the given location.
      * If an event is located at the given location it is returned, otherwise null is returned.
+     *
      * @param location the location of the event
      * @return the event at that location or null if no event exists at the given location
      */
@@ -130,6 +135,7 @@ public class EventIndex {
 
     /**
      * Gets all of the events, in no specfic order
+     *
      * @return
      */
     public Collection<Event> getAllEvents() {
@@ -138,7 +144,8 @@ public class EventIndex {
 
     /**
      * Adds the given event ID to the grid index, at the location index.
-     * @param id the id of the event
+     *
+     * @param id       the id of the event
      * @param location the location of the event
      */
     private void addEventID(int id, Location location) {
@@ -150,6 +157,7 @@ public class EventIndex {
 
     /**
      * Clears the grid index of any event at the given location
+     *
      * @param location
      */
     private void clearLocation(Location location) {
@@ -159,6 +167,7 @@ public class EventIndex {
 
     /**
      * Gets the event id at the given location
+     *
      * @param location the location to get the id
      * @return the event id at theat location or zero of no event exists at the location
      */
@@ -184,9 +193,13 @@ public class EventIndex {
             this.distance = distance;
         }
 
-        public Event getEvent() { return event;}
+        public Event getEvent() {
+            return event;
+        }
 
-        public int getDistance() { return distance;}
+        public int getDistance() {
+            return distance;
+        }
 
     }
 

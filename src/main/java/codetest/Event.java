@@ -21,6 +21,7 @@ public class Event {
 
     /**
      * Get the EventIndex unique ID
+     *
      * @return the event ID
      */
     public int getID() {
@@ -29,6 +30,7 @@ public class Event {
 
     /**
      * Gets the EventIndex Location
+     *
      * @return the event location
      */
     public Location getLocation() {
@@ -37,6 +39,7 @@ public class Event {
 
     /**
      * Gets the events Ticket list.
+     *
      * @return the tickets available for the event
      */
     public List<Ticket> getTickets() {
@@ -45,6 +48,7 @@ public class Event {
 
     /**
      * Gets the cheapest ticket available for the event.
+     *
      * @return the cheapest ticket or null if no tickets are available.
      */
     public Ticket getCheapestTicket() {
