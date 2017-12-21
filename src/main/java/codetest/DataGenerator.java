@@ -29,32 +29,28 @@ public class DataGenerator {
 
         for (int i = 0; i < count; i++) {
 
+            // Create tickets for the event.
             int ticketCount = rnd.nextInt(MAX_TICKET_COUNT);
             List<Ticket> tickets = new ArrayList<Ticket>(ticketCount);
             for (int t = 0; t < ticketCount; t++) {
                 tickets.add(new Ticket(rnd.nextFloat() * MAX_TICKET_PRICE));
             }
 
+            // Generate random location for the event
+            int x = rnd.nextInt(Location.MAX_LOCATION_SIZE);
+            if (rnd.nextBoolean())
+                x = -x;
 
-            Location location = null;
-            while (null == location) {
-                int x = rnd.nextInt(Location.MAX_LOCATION_SIZE);
-                if (rnd.nextBoolean())
-                    x = -x;
+            int y = rnd.nextInt(Location.MAX_LOCATION_SIZE);
+            if (rnd.nextBoolean())
+                y = -y;
 
-                int y = rnd.nextInt(Location.MAX_LOCATION_SIZE);
-                if (rnd.nextBoolean())
-                    y = -y;
-
-                location = new Location(x, y);
-                if (eventIndex.getEventAtLocation(location) != null) // If already have event at that location, use another
-                    location = null;
-            }
+            Location location = new Location(x, y);
 
             Event event = new Event(i + 1, location, tickets);
             eventIndex.addEvent(event);
-
             System.out.print(".");
+
         }
         System.out.println();
     }

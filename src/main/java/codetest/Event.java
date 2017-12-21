@@ -1,6 +1,7 @@
 package codetest;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * An Event class contains the data relating to a single event.Each event has a unique (integer) ID,
@@ -63,5 +64,21 @@ public class Event {
     @Override
     public String toString() {
         return super.toString() + String.format("{id: %d, location: %s, tickets: %d", this.getID(), this.getLocation().toString(), this.getTickets().size());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(String.format("%d%s%s", getID(), getLocation().toString(), getTickets().toString()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (null == obj || !(obj instanceof Event))
+            return false;
+
+        Event eObj = (Event)obj;
+        return eObj.getID() == this.getID() &&
+                eObj.getLocation().equals(this.getLocation()) &&
+                eObj.getTickets().equals(this.getTickets());
     }
 }

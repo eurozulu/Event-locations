@@ -1,8 +1,6 @@
 package codetest;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Main, entry class.
@@ -39,6 +37,7 @@ public class Main {
 
         System.out.println("Please Enter your location, x,y where x and y are in the range of -10 to 10");
         System.out.println("Enter 'exit' to end");
+        System.out.println("Enter 'list' to list all events");
 
         while (lineIn.hasNext()) {
 
@@ -96,8 +95,8 @@ public class Main {
                             event.getID(), price, eventDistance);
 
                     index++;
-                    if (distance == 0 && index >= MAX_OUTPUT_COUNT) { // Limit to five outputs when no distance given.
-                        // check fo
+                    if (distance < 1 && index >= MAX_OUTPUT_COUNT) { // Limit to five outputs when no distance given.
+                        break;
                     }
 
                 }
@@ -110,7 +109,20 @@ public class Main {
     }
 
     private static void dumpEvents(Collection<Event> events) {
-        for (Event event : events) {
+
+        // re-order by event ID
+        List<Event> orderedEvents = new LinkedList<>();
+        orderedEvents.addAll(events);
+        Collections.sort(orderedEvents, new Comparator<Event>() {
+            @Override
+            public int compare(Event o1, Event o2) {
+                return o1.getID() < o2.getID() ? -1 :
+                        o1.getID() > o2.getID() ? 1 : 0;
+            }
+        });
+
+
+        for (Event event : orderedEvents) {
 
             System.out.printf("Event %d, Location: %d,%d\t", event.getID(), event.getLocation().getX(), event.getLocation().getY());
 

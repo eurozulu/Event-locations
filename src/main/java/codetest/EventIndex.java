@@ -5,16 +5,13 @@ import java.util.*;
 /**
  * The Event Index maintaining all the Events available, indexed by their location.
  * <p>
- * EventIndex have their id indexed in a two dimensional index.
- * <p>
  * Created by rgilham on 11/12/2017.
  */
 public class EventIndex {
 
     private static final int MAX_GRID_SIZE = (Location.MAX_LOCATION_SIZE * 2) + 1;
 
-    private final Map<Integer, Event> eventMap = new HashMap<Integer, Event>();
-    private final int[][] index = new int[MAX_GRID_SIZE][MAX_GRID_SIZE];
+    private final Map<Location, List<Event>> eventsMap = new HashMap<Location, List<Event>>();
 
 
     /**
@@ -26,56 +23,34 @@ public class EventIndex {
      */
     public List<Event> findEvents(Location location, int distance) {
 
-        int dist = Math.abs(distance);
-        if (dist == 0)
-            dist = MAX_GRID_SIZE;
-
-        int startX = location.getX() - dist;
-        if (startX < -Location.MAX_LOCATION_SIZE) {
-            startX = -Location.MAX_LOCATION_SIZE;
-        }
-        int endX = location.getX() + dist;
-        if (endX > Location.MAX_LOCATION_SIZE) {
-            endX = Location.MAX_LOCATION_SIZE;
-        }
-        int startY = location.getY() - dist;
-        if (startY < -Location.MAX_LOCATION_SIZE) {
-            startY = -Location.MAX_LOCATION_SIZE;
-        }
-        int endY = location.getY() + dist;
-        if (endY > Location.MAX_LOCATION_SIZE) {
-            endY = Location.MAX_LOCATION_SIZE;
-        }
-
-        // Use found items to calculate the order by distance,
-        List<FoundItem> foundItems = new ArrayList<FoundItem>();
-
-        // Collect all items in range of the offset location
-        for (int x = startX; x <= endX; x++) {
-            for (int y = startY; y <= endY; y++) {
-                Location l = new Location(x, y);
-                int d = location.getDistance(l);
-
-                if (d <= dist) { // check location is inside distance range. (extreme of iterations may not be)
-                    Event event = getEventAtLocation(l);
-                    if (null != event) {
-                        foundItems.add(new FoundItem(event, d));
-                    }
-                }
-            }
-        }
+        List<Event> orderedEvents = new LinkedList<>();
+        orderedEvents.addAll(getAllEvents());
 
         // Sort found items by distance
-        Collections.sort(foundItems, new Comparator<FoundItem>() {
-            public int compare(FoundItem o1, FoundItem o2) {
-                return o1.getDistance() < o2.getDistance() ? -1 : o1.getDistance() == o2.getDistance() ? 0 : 1;
+        Collections.sort(orderedEvents, new Comparator<Event>() {
+            public int compare(Event e1, Event e2) {
+
+                // Compare the distances for each event, from the 'location' and sort by result.
+                int d1 = e1.getLocation().getDistance(location);
+                int d2 = e2.getLocation().getDistance(location);
+
+                return d1 < d2 ? -1 : d1 > d2 ? 1 : 0;
             }
         });
 
-        // Transfer found items to simple, ordered event list
-        List<Event> orderedEvents = new LinkedList<Event>();
-        for (FoundItem item : foundItems) {
-            orderedEvents.add(item.getEvent());
+        // restrict list to specified distance, zero < == no limit
+        if (distance > 0) {
+            int index = 0;
+            for (Event event : orderedEvents) {
+                if (event.getLocation().getDistance(location) > distance)
+                    break; // Bail out once first event beyond distance as list is ordered.
+                index++;
+            }
+            if (index < orderedEvents.size()) {
+                for (int i=orderedEvents.size() - 1; i >= index; i--) {
+                    orderedEvents.remove(i);
+                }
+            }
         }
         return orderedEvents;
     }
@@ -90,48 +65,45 @@ public class EventIndex {
         if (event.getID() == 0)
             throw new IllegalArgumentException("event ID can not be zero");
 
-        if (eventMap.containsKey(event.getID())) // Remove any existing event with same id.
-            removeEvent(event.getID());
+        Location location = event.getLocation();
+        if (location == null)
+            throw new IllegalArgumentException("Event has no location");
 
-        eventMap.put(event.getID(), event);
-        addEventID(event.getID(), event.getLocation());
+        if (!eventsMap.containsKey(location)) { // If location never seen, create a new, empty list for its events.
+            eventsMap.put(location, new ArrayList<Event>());
+        }
 
+        if (!eventsMap.get(location).contains(event)) // Only add if it's not already in the list.
+            eventsMap.get(location).add(event);
     }
 
-    /**
-     * Remove the event with the given ID from the index
-     *
-     * @param id
-     */
-    public void removeEvent(int id) {
-        Event event = getEvent(id);
-        if (null != event) {
-            eventMap.remove(event.getID());
-            clearLocation(event.getLocation());
+    public void removeEvent(int eventID) {
+        Event event = getEventById(eventID);
+        while (null != event) {
+            List<Event> eventsList = eventsMap.get(event.getLocation());
+            if (null != eventsList) {
+                eventsList.remove(event);
+            }
+            event = getEventById(eventID);
         }
     }
 
-    /**
-     * Gets the Event by the event ID
-     *
-     * @param id the ID of the event
-     * @return the Event with that id or null if no event with that id exists.
-     */
-    public Event getEvent(int id) {
-        return eventMap.get(id);
+    private Event getEventById(int id) {
+        Event foundEvent = null;
+
+        for (List<Event> events : eventsMap.values()) {
+            for (Event event : events) {
+                if (event.getID() == id) {
+                    foundEvent = event;
+                    break;
+                }
+            }
+            if (null != foundEvent)
+                break; // Bail out of out loop if event found.
+        }
+        return foundEvent;
     }
 
-    /**
-     * Gets the event at the given location.
-     * If an event is located at the given location it is returned, otherwise null is returned.
-     *
-     * @param location the location of the event
-     * @return the event at that location or null if no event exists at the given location
-     */
-    public Event getEventAtLocation(Location location) {
-        int id = getEventID(location);
-        return id > 0 ? getEvent(id) : null;
-    }
 
     /**
      * Gets all of the events, in no specfic order
@@ -139,56 +111,46 @@ public class EventIndex {
      * @return
      */
     public Collection<Event> getAllEvents() {
-        return this.eventMap.values();
+        List<Event> events = new ArrayList<>();
+        for (List<Event> eventList : eventsMap.values()) {
+            events.addAll(eventList);
+        }
+        return events;
     }
+
 
     /**
-     * Adds the given event ID to the grid index, at the location index.
-     *
-     * @param id       the id of the event
-     * @param location the location of the event
+     * Get a list of EventDistances, All events with their distance from the given location.
+     * @param fromLocation the location to measure distance to the event from.
+     * @return a list of all events and their distance to the given location
      */
-    private void addEventID(int id, Location location) {
-        int offsetX = location.getX() + Location.MAX_LOCATION_SIZE;
-        int offsetY = location.getY() + Location.MAX_LOCATION_SIZE;
+    private List<EventDistance> getEventDistances(Location fromLocation) {
 
-        index[offsetX][offsetY] = id;
+        List<EventDistance> eventDistances = new ArrayList<EventDistance>();
+
+        for (Map.Entry<Location, List<Event>> entry : eventsMap.entrySet()) {
+            int evDistance = entry.getKey().getDistance(fromLocation);
+
+            for (Event event : entry.getValue()) {
+                eventDistances.add(new EventDistance(event, evDistance));
+            }
+        }
+        return eventDistances;
     }
 
-    /**
-     * Clears the grid index of any event at the given location
-     *
-     * @param location
-     */
-    private void clearLocation(Location location) {
-        // set location to zero = empty event
-        addEventID(0, location);
-    }
-
-    /**
-     * Gets the event id at the given location
-     *
-     * @param location the location to get the id
-     * @return the event id at theat location or zero of no event exists at the location
-     */
-    private int getEventID(Location location) {
-        int offsetX = location.getX() + Location.MAX_LOCATION_SIZE;
-        int offsetY = location.getY() + Location.MAX_LOCATION_SIZE;
-        return index[offsetX][offsetY];
-    }
 
 
     /**
      * Internal indexing class used to order EventIndex by distance.
      * Not exposed outside of the index.
      */
-    private class FoundItem {
+    private class EventDistance {
 
         private Event event;
         private int distance;
 
 
-        public FoundItem(Event event, int distance) {
+        public EventDistance(Event event, int distance) {
             this.event = event;
             this.distance = distance;
         }
